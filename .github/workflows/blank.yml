@@ -1,0 +1,22 @@
+#include <unordered_set>
+
+std::unordered_set<uint16_t> uniqueStorageValues = { 5000, 6000, 7000 }; // Add additional unique storage values here
+
+bool Game::addUniqueItem(uint16_t uniqueId, Item* item)
+{
+    // Check if the unique ID is in the set of unique storage values
+    if (uniqueStorageValues.count(uniqueId) > 0)
+    {
+        // Add the item directly without checking for duplicates
+        uniqueItems[uniqueId] = item;
+        return true;
+    }
+
+    // Check if the unique ID already exists
+    auto result = uniqueItems.emplace(uniqueId, item);
+    if (!result.second)
+    {
+        std::cout << "Duplicate unique id: " << uniqueId << std::endl;
+    }
+    return result.second;
+}
